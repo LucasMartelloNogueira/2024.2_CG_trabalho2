@@ -37,12 +37,12 @@ export class HalfEdgeDS {
 
   build(coords, trigs) {
     // construção dos vértices
-    for (let vid = 0; vid < coords.length; vid+=4) {
+    for (let vid = 0; vid < coords.length; vid+=3) {
       const x = coords[vid];
       const y = coords[vid + 1];
       const z = coords[vid + 2];
 
-      const v = new Vertex(vid / 4, x, y, z);
+      const v = new Vertex(vid / 3, x, y, z);
       this.vertices.push(v);
     }
 
@@ -51,6 +51,18 @@ export class HalfEdgeDS {
       const v0  = this.vertices[ trigs[tid + 0] ];
       const v1  = this.vertices[ trigs[tid + 1] ];
       const v2  = this.vertices[ trigs[tid + 2] ];
+
+      if (v0 === undefined) {
+        console.log(`v0 undefined / tid: ${tid} / trigs[tid+0] = ${trigs[tid]}`)
+      }
+
+      if (v1 === undefined) {
+        console.log(`v1 undefined / tid: ${tid} / trigs[tid+1] = ${trigs[tid+1]}`)
+      }
+
+      if (v2 === undefined) {
+        console.log(`v2 undefined / tid: ${tid} / trigs[tid+1] = ${trigs[tid+2]}`)
+      }
 
       const he0 = new HalfEdge(v0);
       const he1 = new HalfEdge(v1);
@@ -83,7 +95,8 @@ export class HalfEdgeDS {
   computeOpposites() {
     const visited = {};
 
-    for (let hid = 0; hid < this.halfEdges.length; hid ++) {
+    for (let hid = 0; hid < this.halfEdges.length; hid++) {
+      // console.log(this.halfEdges[hid])
       const a = this.halfEdges[hid].vertex.vid;
       const b = this.halfEdges[hid].next.vertex.vid;
 

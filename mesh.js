@@ -28,31 +28,70 @@ export default class Mesh {
     this.uProjectionLoc = -1;
   }
 
+  // async loadMeshV4() {
+  //   const resp = await fetch('model.obj');
+  //   const text = await resp.text();
+
+  //   const txtList = text.split(/\s+/)
+  //   const data = txtList.map(d => +d);
+
+  //   const nv = data[0];
+  //   const nt = data[1];
+
+  //   const coords = [];
+  //   const normals = []
+  //   const indices = [];
+
+
+  //   for (let did = 2; did < data.length; did++) {
+  //     if (did < 4 * nv + 2) {
+  //       coords.push(data[did]);
+  //     }
+  //     else {
+  //       indices.push(data[did]);
+  //     }
+  //   }
+
+  //   console.log(indices);
+  //   this.heds.build(coords, indices);
+  // }
+
   async loadMeshV4() {
-    const resp = await fetch('model.obj');
+    const resp = await fetch('bunny.obj');
     const text = await resp.text();
 
-    const txtList = text.split(/\s+/)
-    const data = txtList.map(d => +d);
-
-    const nv = data[0];
-    const nt = data[1];
+    const data = text.split("\n")
 
     const coords = [];
-    const normals = []
+    const normals = [];
     const indices = [];
+    
+    for (let i = 0; i < data.length; i++){
+      let line = data[i].trim().split(" ")
 
-
-    for (let did = 2; did < data.length; did++) {
-      if (did < 4 * nv + 2) {
-        coords.push(data[did]);
+      if (line[0] == "v") {
+        let x = parseFloat(line[1]);
+        let y = parseFloat(line[2]);
+        let z = parseFloat(line[3]);
+        coords.push(x, y, z)
       }
-      else {
-        indices.push(data[did]);
+
+      if (line[0] == "vn") {
+        let x = parseFloat(line[1]);
+        let y = parseFloat(line[2]);
+        let z = parseFloat(line[3]);
+        normals.push(x, y, z)
+      }
+
+      if (line[0] == "f") {
+        let v1 = parseInt(line[1].split("/")[0] - 1);
+        let v2 = parseInt(line[2].split("/")[0] - 1);
+        let v3 = parseInt(line[3].split("/")[0] - 1);
+        indices.push(v1, v2, v3)
       }
     }
 
-    console.log(coords, indices);
+    // console.log(indices);
     this.heds.build(coords, indices);
   }
 
@@ -103,21 +142,12 @@ export default class Mesh {
     this.angle += 0.005;
 
     mat4.identity( this.model );
-    mat4.translate(this.model, this.model, [this.delta, 0, 0]);
-    // [1 0 0 delta, 0 1 0 0, 0 0 1 0, 0 0 0 1] * this.mat 
+    // mat4.translate(this.model, this.model, [this.delta, 0, 0]);
 
     mat4.rotateY(this.model, this.model, this.angle);
-    // [ cos(this.angle) 0 -sin(this.angle) 0, 
-    //         0         1        0         0, 
-    //   sin(this.angle) 0  cos(this.angle) 0, 
-    //         0         0        0         1]
-    // * this.mat 
+    // mat4.translate(this.model, this.model, [-0.25, -0.25, -0.25]);
 
-    mat4.translate(this.model, this.model, [-0.25, -0.25, -0.25]);
-    // [1 0 0 -0.5, 0 1 0 -0.5, 0 0 1 -0.5, 0 0 0 1] * this.mat 
-
-    mat4.scale(this.model, this.model, [5, 5, 5]);
-    // [5 0 0 0, 0 5 0 0, 0 0 5 0, 0 0 0 1] * this.mat 
+    mat4.scale(this.model, this.model, [0.4, 0.4, 0.4]);
   }
 
   draw(gl, cam, light) {
