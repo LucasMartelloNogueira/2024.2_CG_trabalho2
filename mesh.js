@@ -26,6 +26,7 @@ export default class Mesh {
     this.uModelLoc = -1;
     this.uViewLoc = -1;
     this.uProjectionLoc = -1;
+    this.uScaleLoc = -1
   }
 
   // async loadMeshV4() {
@@ -107,6 +108,7 @@ export default class Mesh {
     this.uModelLoc = gl.getUniformLocation(this.program, "u_model");
     this.uViewLoc = gl.getUniformLocation(this.program, "u_view");
     this.uProjectionLoc = gl.getUniformLocation(this.program, "u_projection");
+    this.uScaleLoc = gl.getUniformLocation(this.program, "u_scale");
   }
 
   createVAO(gl) {
@@ -147,7 +149,7 @@ export default class Mesh {
     mat4.rotateY(this.model, this.model, this.angle);
     // mat4.translate(this.model, this.model, [-0.25, -0.25, -0.25]);
 
-    mat4.scale(this.model, this.model, [0.4, 0.4, 0.4]);
+    mat4.scale(this.model, this.model, [50.0, 50.0, 50.0]);
   }
 
   draw(gl, cam, light) {
@@ -170,6 +172,11 @@ export default class Mesh {
     gl.uniformMatrix4fv(this.uModelLoc, false, model);
     gl.uniformMatrix4fv(this.uViewLoc, false, view);
     gl.uniformMatrix4fv(this.uProjectionLoc, false, proj);
+    
+    // para botar os pontos entre -100 e 100, temos que multiplicas as coords por 0.01
+    const scale = [0.01, 0.01, 0.01]
+    gl.uniform3fv(this.uScaleLoc, scale);
+
 
     gl.bindVertexArray(this.vaoLoc);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indicesLoc);
