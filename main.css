@@ -10,3 +10,9 @@ body {
     height: 768;
     background-color: black;
 }
+
+.botao {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+  }

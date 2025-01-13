@@ -28,34 +28,6 @@ export default class Mesh {
     this.uProjectionLoc = -1;
   }
 
-  // async loadMeshV4() {
-  //   const resp = await fetch('model.obj');
-  //   const text = await resp.text();
-
-  //   const txtList = text.split(/\s+/)
-  //   const data = txtList.map(d => +d);
-
-  //   const nv = data[0];
-  //   const nt = data[1];
-
-  //   const coords = [];
-  //   const normals = []
-  //   const indices = [];
-
-
-  //   for (let did = 2; did < data.length; did++) {
-  //     if (did < 4 * nv + 2) {
-  //       coords.push(data[did]);
-  //     }
-  //     else {
-  //       indices.push(data[did]);
-  //     }
-  //   }
-
-  //   console.log(indices);
-  //   this.heds.build(coords, indices);
-  // }
-
   async loadMeshV4() {
     const resp = await fetch('bunny.obj');
     const text = await resp.text();
@@ -70,9 +42,9 @@ export default class Mesh {
       let line = data[i].trim().split(" ")
 
       if (line[0] == "v") {
-        let x = parseFloat(line[1]);
-        let y = parseFloat(line[2]);
-        let z = parseFloat(line[3]);
+        let x = parseFloat(line[1]) / 100;
+        let y = parseFloat(line[2]) / 100;
+        let z = parseFloat(line[3]) / 100;
         coords.push(x, y, z)
       }
 
@@ -142,12 +114,12 @@ export default class Mesh {
     this.angle += 0.005;
 
     mat4.identity( this.model );
-    // mat4.translate(this.model, this.model, [this.delta, 0, 0]);
-
+  
     mat4.rotateY(this.model, this.model, this.angle);
-    // mat4.translate(this.model, this.model, [-0.25, -0.25, -0.25]);
-
-    mat4.scale(this.model, this.model, [0.4, 0.4, 0.4]);
+    
+    mat4.translate(this.model, this.model, [0.336808, -1.203084, 0.030739000000000072]);
+    
+    mat4.scale(this.model, this.model, [50.0, 50.0, 50.0]);
   }
 
   draw(gl, cam, light) {
