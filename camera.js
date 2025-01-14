@@ -30,7 +30,7 @@ export default class Camera {
     this.butaoAlteraCam = document.getElementById("camera");
     this.butaoAlteraCam.addEventListener("click", () => this.changeCam())
 
-    console.log(`tipo camera = ${this.type}`)
+    // console.log(`tipo camera = ${this.type}`)
   }
 
   getView() {

@@ -83,7 +83,7 @@ export default class Mesh {
 
   createVAO(gl) {
     const vbos = this.heds.getVBOs();
-    console.log(vbos);
+    // console.log(vbos);
 
     var coordsAttributeLocation = gl.getAttribLocation(this.program, "position");
     const coordsBuffer = Shader.createBuffer(gl, gl.ARRAY_BUFFER, new Float32Array(vbos[0]));

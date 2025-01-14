@@ -88,8 +88,9 @@ export class HalfEdgeDS {
     this.computeVertexHe();
 
     this.computeNormals();
+    this.estrela();
 
-    console.log(this);
+    // console.log(this);
   }
 
   computeOpposites() {
@@ -176,7 +177,48 @@ export class HalfEdgeDS {
     return [coords, colors, normals, indices];
   }
 
-  estrela(v) {
+  estrela() {
+    const iterations = 3;
+    
+    // chutar um id ate pegar um da orelha 
+    let chute = 1345;
 
+    let notVisitedVertices = [this.vertices[chute]];
+    let visitedVertices = new Set();
+    let vertices = [];
+
+    // pegar os vertices para pintar de vermelho
+    for (let i = 0; i < iterations; i++) {
+
+      console.log(`len: ${notVisitedVertices.length}`)
+      
+      let newVisitedVertex = notVisitedVertices.pop();
+      // console.log(`new vert: ${newVisitedVertex}`)
+      
+      // pintando o vertice de vermelho
+      newVisitedVertex.color = [1.0, 0.0, 0.0];
+      visitedVertices.add(newVisitedVertex.vid);
+      vertices.push(newVisitedVertex);
+
+      let visitedHE = newVisitedVertex.he;
+      notVisitedVertices.push(visitedHE.next.vertex);
+      let currHE = visitedHE.opposite.next;
+      let count = 0; 
+
+
+      // pegando os vertices vizinhos para serem pintados
+      while (currHE != visitedHE) {
+        if (!visitedVertices.has(currHE.next.vertex.vid)) {
+          notVisitedVertices.push(currHE.next.vertex);
+          count++;
+        }
+
+        currHE = currHE.opposite.next;
+      }
+      
+      console.log(`qnt vizinhos add: ${count}`);
+    }
+
+    console.log(`qnt vert vermelhos: ${visitedVertices.size}`)
   }
 }
