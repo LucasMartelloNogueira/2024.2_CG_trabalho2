@@ -88,7 +88,11 @@ export class HalfEdgeDS {
     this.computeVertexHe();
 
     this.computeNormals();
-    this.estrela();
+
+    // colorindo orelha direita
+    this.estrela(1345);
+    // colorindo orelha esquerda
+    this.estrela(7999);
 
     // console.log(this);
   }
@@ -177,48 +181,63 @@ export class HalfEdgeDS {
     return [coords, colors, normals, indices];
   }
 
-  estrela() {
-    const iterations = 3;
+  estrela(guess) {
+    const iterations = 2300;
     
-    // chutar um id ate pegar um da orelha 
-    let chute = 1345;
+    // chutar um vertice ate pegar um da orelha 
+    // let chute = 1345;
+    const red = [1.0, 0.0, 0.0, 1.0]
 
-    let notVisitedVertices = [this.vertices[chute]];
+    // console.log(this.vertices[chute]);
+
+    // const v = this.vertices[chute]
+    // console.log(v);
+    // v.color = red;
+
+    // const count = this.vertices.filter((v) => v.vid === 1345);
+    // console.log(count.length)
+
+    // this.vertices[chute].color = red; 
+    // this.vertices[5559].color = red;
+
+    let notVisitedVertices = [this.vertices[guess]];
     let visitedVertices = new Set();
-    let vertices = [];
+    let stop = false
+    let i = 0;
 
     // pegar os vertices para pintar de vermelho
-    for (let i = 0; i < iterations; i++) {
+    while (!stop || notVisitedVertices.length > 0) {
 
-      console.log(`len: ${notVisitedVertices.length}`)
+      // console.log(`len: ${notVisitedVertices.length}`)
       
       let newVisitedVertex = notVisitedVertices.pop();
       // console.log(`new vert: ${newVisitedVertex}`)
       
       // pintando o vertice de vermelho
-      newVisitedVertex.color = [1.0, 0.0, 0.0];
+      newVisitedVertex.color = red;
       visitedVertices.add(newVisitedVertex.vid);
-      vertices.push(newVisitedVertex);
 
       let visitedHE = newVisitedVertex.he;
-      notVisitedVertices.push(visitedHE.next.vertex);
-      let currHE = visitedHE.opposite.next;
-      let count = 0; 
+      let currHE = visitedHE
+      i++;
 
-
-      // pegando os vertices vizinhos para serem pintados
-      while (currHE != visitedHE) {
+      // verificando se deve parar
+      if (i > iterations) {
+        stop = true;
+      }
+      
+      // pegando os vertices vizinhos para serem pintados somente se ainda nao parou
+      do {
         if (!visitedVertices.has(currHE.next.vertex.vid)) {
-          notVisitedVertices.push(currHE.next.vertex);
-          count++;
+              notVisitedVertices.push(currHE.next.vertex);
         }
 
         currHE = currHE.opposite.next;
-      }
-      
-      console.log(`qnt vizinhos add: ${count}`);
+      } while (!stop && currHE != visitedHE)
+
     }
 
+    console.log(`iterations = ${i}`)
     console.log(`qnt vert vermelhos: ${visitedVertices.size}`)
   }
 }
