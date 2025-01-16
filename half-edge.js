@@ -237,7 +237,7 @@ export class HalfEdgeDS {
 
     }
 
-    console.log(`iterations = ${i}`)
-    console.log(`qnt vert vermelhos: ${visitedVertices.size}`)
+    // console.log(`iterations = ${i}`)
+    // console.log(`qnt vert vermelhos: ${visitedVertices.size}`)
   }
 }

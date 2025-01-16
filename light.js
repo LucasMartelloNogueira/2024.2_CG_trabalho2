@@ -35,7 +35,8 @@ export default class Light {
     gl.uniform1f(espPLoc, this.esp_p);
   }
 
-  updateLight() {
-    // TODO: Change light position
+  updateLight(x, y, z) {
+    this.pos = vec4.fromValues(x, y, z, 1.0);
+    // console.log(this.pos)
   }
 }

@@ -4,11 +4,11 @@ import Mesh from './mesh.js';
 
 class Scene {
   constructor(gl) {
-    // Camera virtual
-    this.cam = new Camera(gl);
-
     // Luz
     this.light = new Light();
+    
+    // Camera virtual
+    this.cam = new Camera(gl, this.light);
 
     // Mesh
     this.mesh = new Mesh(1.0);
@@ -21,7 +21,7 @@ class Scene {
 
   draw(gl) {  
     this.cam.updateCam();
-    this.light.updateLight();
+    // this.light.updateLight();
     this.mesh.draw(gl, this.cam, this.light);
   }
 }
