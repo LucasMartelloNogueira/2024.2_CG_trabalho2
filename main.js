@@ -5,10 +5,19 @@ import Mesh from './mesh.js';
 class Scene {
   constructor(gl) {
     // Luz
-    this.light = new Light();
+    const white = [1.0, 1.0, 1.0]
+    const yellow = [1.0, 1.0, 0.0]
+
+    const light1_coords = [-100.0, 100.0, 0.0]
+    const light2_coords = [100.0, 100.0, 0.0]
+
+    const light1 = new Light(light1_coords, white);
+    const light2 = new Light(light2_coords, yellow);
+    
+    this.lights = [light1, light2]
     
     // Camera virtual
-    this.cam = new Camera(gl, this.light);
+    this.cam = new Camera(gl);
 
     // Mesh
     this.mesh = new Mesh(1.0);
@@ -16,13 +25,12 @@ class Scene {
 
   async init(gl) {
     await this.mesh.loadMeshV4();
-    this.mesh.init(gl, this.light);
+    this.mesh.init(gl, this.lights);
   }
 
   draw(gl) {  
     this.cam.updateCam();
-    // this.light.updateLight();
-    this.mesh.draw(gl, this.cam, this.light);
+    this.mesh.draw(gl, this.cam);
   }
 }
 

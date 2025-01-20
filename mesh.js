@@ -64,7 +64,7 @@ export default class Mesh {
     }
 
     // console.log(indices);
-    this.heds.build(coords, indices);
+    this.heds.build(coords, indices, normals);
   }
 
   createShader(gl) {
@@ -102,12 +102,23 @@ export default class Mesh {
     this.indicesLoc = Shader.createBuffer(gl, gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(vbos[3]));
   }  
 
-  init(gl, light) {
+  init(gl, lights) {
     this.createShader(gl);
     this.createUniforms(gl);
     this.createVAO(gl);
 
-    light.createUniforms(gl, this.program);
+    // console.log(lights)
+
+    for (let light of lights) {
+      // console.log(light);
+      light.createUniforms(gl, this.program);
+    }
+
+    // lights.forEach((light) => {
+    //   light.createUniforms(gl, this.program)
+    // });
+
+    // light.createUniforms(gl, this.program);
   }
 
   updateModelMatrix() {
@@ -122,7 +133,7 @@ export default class Mesh {
     mat4.scale(this.model, this.model, [50.0, 50.0, 50.0]);
   }
 
-  draw(gl, cam, light) {
+  draw(gl, cam) {
     // faces orientadas no sentido anti-horário
     gl.frontFace(gl.CCW);
 

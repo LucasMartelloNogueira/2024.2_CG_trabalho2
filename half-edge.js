@@ -1,9 +1,9 @@
 export class Vertex {
-  constructor(vid, x, y, z, color = [0.5, 0.2, 0.4, 1.0]) {
+  constructor(vid, x, y, z, color = [1.0, 1.0, 1.0, 1.0], normal = [0.0, 0.0, 0.0, 0.0]) {
     this.vid = vid;
 
     this.position = [x, y, z, 1];
-    this.normal = [0.0, 0.0, 0.0, 0.0];
+    this.normal = normal;
 
     this.color = color;
 
@@ -35,14 +35,19 @@ export class HalfEdgeDS {
     this.faces = [];
   }
 
-  build(coords, trigs) {
+  build(coords, trigs, normals) {
+
+    const color = [1.0, 1.0, 1.0, 1.0]
+
     // construção dos vértices
     for (let vid = 0; vid < coords.length; vid+=3) {
       const x = coords[vid];
       const y = coords[vid + 1];
       const z = coords[vid + 2];
 
-      const v = new Vertex(vid / 3, x, y, z);
+      let normal = [normals[vid], normals[vid+1], normals[vid+2], 0.0]
+
+      const v = new Vertex(vid / 3, x, y, z, color, normal);
       this.vertices.push(v);
     }
 
@@ -87,7 +92,7 @@ export class HalfEdgeDS {
     this.computeOpposites();
     this.computeVertexHe();
 
-    this.computeNormals();
+    // this.computeNormals();
 
     // colorindo orelha direita
     this.estrela(1345);

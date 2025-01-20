@@ -1,11 +1,9 @@
 export default class Camera {
-  constructor(gl, light) {
+  constructor(gl) {
     // Posição da camera
     this.eye = vec3.fromValues(1.5, 0.0, 1.5);
     this.at  = vec3.fromValues(0.0, -0.7, 0.0);
     this.up  = vec3.fromValues(0.0, 1.0, 0.0);
-
-    this.light = light
 
     // Parâmetros da projeção
     this.fovy = Math.PI / 2;
@@ -50,27 +48,25 @@ export default class Camera {
 
   changeCam() {
     if (this.type === this.perspective) {
-      this.eye = vec3.fromValues(50.0, 50.0, 50.0);
+      this.eye = vec3.fromValues(50, 50.0, 50.0);
       this.type = this.orthogonal;
-      this.light.updateLight(52.0, 52, 52.0)
   
-      // this.left = -25;
-      // this.right = 25;
-      // this.top = 25;
-      // this.bottom = -25;
-      this.near = 1;
+      // this.left = -50;
+      // this.right = 50;
+      // this.top = 50;
+      // this.bottom = -50;
+      this.near = 0;
       this.far = 100;
   
     } else {
       this.eye = vec3.fromValues(1.5, 0.0, 1.5);
-      this.light.updateLight(5.0, 2.0, 2,0)
       this.type = this.perspective;
-      this.near = 0;
-      this.far = 5;
+      // this.near = 0;
+      // this.far = 5;
     }
   
     console.log(`tipo camera = ${this.type}`);
-    this.updateCam(); // Ensure view and projection matrices are updated
+    // this.updateCam();
   }
   
 

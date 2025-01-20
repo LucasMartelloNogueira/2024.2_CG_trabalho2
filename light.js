@@ -1,14 +1,23 @@
 export default class Light {
-  constructor() {
-    this.pos = vec4.fromValues(2.0, 2.0, 2.0, 1.0);
+  constructor(coords, color) {
 
-    this.amb_c = vec4.fromValues(1.0, 1.0, 1.0, 1.0);
+    const x = coords[0];
+    const y = coords[1];
+    const z = coords[2];
+
+    const r = color[0];
+    const g = color[1];
+    const b = color[2];
+
+    this.pos = vec4.fromValues(x, y, z, 1.0);
+
+    this.amb_c = vec4.fromValues(r, g, b, 1.0);
     this.amb_k = 0.2;
 
-    this.dif_c = vec4.fromValues(1.0, 1.0, 1.0, 1.0);
+    this.dif_c = vec4.fromValues(r, g, b, 1.0);
     this.dif_k = 0.5;
 
-    this.esp_c = vec4.fromValues(1.0, 1.0, 1.0, 1.0);
+    this.esp_c = vec4.fromValues(r, g, b, 1.0);
     this.esp_k = 0.4;
     this.esp_p = 5.0;
   }
