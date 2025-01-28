@@ -47,7 +47,13 @@ export class HalfEdgeDS {
 
       let normal = [normals[vid], normals[vid+1], normals[vid+2], 0.0]
 
+
+      // cores erradas / cameras certas
+      // const v = new Vertex(vid / 3, x, y, z, normal, color);
+
+      // cores certas / cameras erradas
       const v = new Vertex(vid / 3, x, y, z, color, normal);
+      
       this.vertices.push(v);
     }
 

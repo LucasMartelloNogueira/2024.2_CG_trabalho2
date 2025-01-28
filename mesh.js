@@ -128,6 +128,7 @@ export default class Mesh {
   
     mat4.rotateY(this.model, this.model, this.angle);
     
+    // coordenadas de origem encontrada em test.ipynb
     mat4.translate(this.model, this.model, [0.336808, -1.203084, 0.030739000000000072]);
     
     mat4.scale(this.model, this.model, [50.0, 50.0, 50.0]);
