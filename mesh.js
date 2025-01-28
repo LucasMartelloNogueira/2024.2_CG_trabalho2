@@ -129,6 +129,8 @@ export default class Mesh {
     mat4.rotateY(this.model, this.model, this.angle);
     
     // coordenadas de origem encontrada em test.ipynb
+    // se não der para ver essa info no código ir para o arquivo no github: https://github.com/LucasMartelloNogueira/2024.2_CG_trabalho2/blob/main/test.ipynb
+    // a info das coordenadas de origem estão no output da celula 6, nas variaveis "origin_x", "origin_y", "origin_z"
     mat4.translate(this.model, this.model, [0.336808, -1.203084, 0.030739000000000072]);
     
     mat4.scale(this.model, this.model, [50.0, 50.0, 50.0]);
